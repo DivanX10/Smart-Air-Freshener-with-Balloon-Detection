@@ -1,0 +1,257 @@
+substitutions:
+  board_name: Glade Air Freshener
+  node_name: airfreshener_glade
+
+esphome:
+  name: ${node_name}
+  comment: WeMos D1 Mini Air Freshener
+
+esp8266:
+  board: d1_mini
+  framework:
+    version: recommended
+  restore_from_flash: true #Сохраняем предустановленные настройки. После перезагрузки настройки не сбрасываются
+
+#Сброс данных на флэш-накопитель для уменьшения износа флеш-накопителя
+preferences:
+  flash_write_interval: 1min
+
+#Учетные данные Wi-Fi для подключения платы к домашней сети
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+  fast_connect: on
+
+#Если не будет связи с WiFi, то поднимется точка доступа
+  ap:
+    ssid: !secret ap_esp_ssid
+    password: !secret ap_esp_password
+
+#Компонент captive portal в ESPHome является резервным механизмом на случай сбоя подключения к настроенному Wi-Fi.
+captive_portal:
+
+#Веб сервер
+web_server:
+  port: 80
+
+#Журналирование
+logger:
+
+#OTA и API
+ota:
+  password: "esphome"
+api:
+  password: "esphome"
+
+
+
+#####################################################################################
+################################## Сенсор ###########################################
+sensor:
+#Сенсор уровня сигнала WiFi
+  - platform: wifi_signal
+    name: ${board_name} RSSI WiFi
+    icon: mdi:wifi
+    update_interval: 60s
+
+#Скрытый сенсор безотказной работы в секундах
+  - platform: uptime
+    name: ${board_name} Uptime sec
+    icon: mdi:clock-outline
+    id: uptime_sensor
+    internal: False #Скрыть - true \показать - false
+
+#Скрытый служебный сенсор нажатия на кнопку
+  - platform: template
+    name: ${board_name} Click Spray
+    id: sensor_spray
+    internal: True #Скрыть - true \показать - false
+
+#Датчик сопротивления для замера сопротивдения и определения баллона
+#Компонент Analog To Digital Sensor
+  - platform: adc
+    pin: A0
+    id: source_sensor
+    name: ${board_name} ADS
+    update_interval: 1s
+  - platform: resistance
+    id: resistance_sensor
+    sensor: source_sensor
+    configuration: DOWNSTREAM
+    resistor: 5.6kOhm
+    name: ${board_name} Resistance
+    on_value:
+      - if:
+          condition:
+            - lambda: |-
+                return int(x) < 30;
+          then:
+            - text_sensor.template.publish:
+                id: ballon
+                state: "Баллон извлечен"
+      - if:
+          condition:
+            - lambda: |-
+                return int(x) < 140 and int(x) > 100;
+          then:
+            - text_sensor.template.publish:
+                id: ballon
+                state: "Пион и сочные ягоды"
+      - if:
+          condition:
+            - lambda: |-
+                return int(x) < 190 and int(x) > 160;
+          then:
+            - text_sensor.template.publish:
+                id: ballon
+                state: "Свежесть утра"
+      - if:
+          condition:
+            - lambda: |-
+                return int(x) < 270 and int(x) > 250;
+          then:
+            - text_sensor.template.publish:
+                id: ballon
+                state: "Свежесть белья"
+      - if:
+          condition:
+            - lambda: |-
+                return int(x) < 650 and int(x) > 620;
+          then:
+            - text_sensor.template.publish:
+                id: ballon
+                state: "Океанский оазис"
+      - if:
+          condition:
+            - lambda: |-
+                return int(x) > 2000;
+          then:
+            - text_sensor.template.publish:
+                id: ballon
+                state: "Японский сад"
+#####################################################################################
+################################## Бинарный сенсор ##################################
+binary_sensor:
+#Скрытый служебный бинарный сенсор нажатия на кнопку, который при смене статуса вкл\выкл выключатель для распыления
+  - platform: gpio
+    pin: GPIO13
+    name: ${board_name} Spray Button Press
+    internal: True #Скрыть - true \показать - false
+    id: button_sensor_d7
+    on_press:
+      then:
+        - switch.turn_on: switch_spray
+        - delay: 5s
+        - switch.turn_off: switch_spray
+
+#Видимый бинарный сенсор для отображения статуса, это может пригодиться в автоматизации HomeAssistant
+  - platform: template
+    name: ${board_name} Status Spray
+    icon: mdi:spray
+    id: switch_state
+    internal: false #Скрыть - true \показать - false
+    lambda: |-
+      if (id(switch_spray).state) {
+        return true;
+      } else {
+        return false;
+      }
+
+
+#####################################################################################
+################################## Выключатель ######################################
+#Скрытый служебный выключатель для распыления
+switch:
+  - platform: gpio
+    pin: GPIO15
+    name: ${board_name} Single Click Spray
+    internal: True #Скрыть - true \показать - false
+    id: switch_spray
+    icon: mdi:spray
+    restore_mode: ALWAYS_OFF
+    on_turn_on:
+      then:  
+        - number.set:
+            id: id_counter
+            value: !lambda |-
+              return ((id(id_counter).state)+1);
+        - sensor.template.publish:
+            id: sensor_spray
+            state: !lambda return id(switch_spray).state;
+        - component.update: id_counter
+        - delay: 10s
+        - switch.turn_off: switch_spray
+        - sensor.template.publish:
+            id: sensor_spray
+            state: !lambda return id(switch_spray).state;
+
+#####################################################################################
+###################################### Счетчик ######################################
+#Счетчик распылении
+number:
+#Счетчик распылении
+  - platform: template
+    name: ${board_name} Counter
+    icon: mdi:counter
+    id: id_counter
+    restore_value: true
+    update_interval: 30s
+    min_value: 0
+    max_value: 3000
+    mode: box #slider/box
+    step: 1
+    optimistic: true
+
+#####################################################################################
+####################################### Кнопка ######################################
+button:
+#Перезагрузка
+  - platform: restart
+    name: ${board_name} Restart
+    icon: mdi:restart
+
+#Распылить
+  - platform: template
+    name: ${board_name} Click Spray
+    icon: mdi:spray
+    on_press:
+      then:  
+       - switch.turn_on: switch_spray
+
+#Сбросить счетчик
+  - platform: template
+    name: ${board_name} Reset Counters Spray
+    icon: mdi:restart
+    on_press:
+      then:  
+        - number.set:
+            id: id_counter
+            value: 0
+#####################################################################################
+################################### Текстовый сенсор ################################
+#Время безотказной работы
+text_sensor:
+  - platform: template
+    name: ${board_name} Ballon
+    icon: mdi:spray
+    id: ballon
+    update_interval: 60s
+
+  - platform: wifi_info
+    ip_address:
+      name: ${board_name} IP
+#    ssid:
+#      name: ${board_name} SSID
+#    bssid:
+#      name: ${board_name} BSSID
+#    mac_address:
+#      name: ${board_name} Mac
+#    scan_results:
+#      name: ${board_name} Latest_Scan_Results
+
+#####################################################################################
+####################################### Время #######################################
+time:
+  - platform: sntp
+    id: sntp_time
+    timezone: Europe/Moscow
