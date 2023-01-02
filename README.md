@@ -76,6 +76,11 @@
 
 ---
 
+### Заливка на ESP Wemos mini прошивку для управления освежителем воздуха
+В ESPHome создаем проект для управления освежителем воздуха, копируем код [отсюда](https://github.com/DivanX10/Smart-Air-Freshener-with-Balloon-Detection/blob/main/air-freshener-glade.yaml) и заливаем на плату
+
+---
+
 ### Сборка
 
 Извлекаем родную плату и делаем как на схеме
