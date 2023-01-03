@@ -21,12 +21,12 @@ The project used an automatic air freshener from the company Glade with replacea
 ### Necessary details
 
 <details>
-  <summary><b>1)</b> Glade Automatic Air Freshener - 1 шт.</summary>
+  <summary><b>1)</b> Glade Automatic Air Freshener - 1 pc.</summary>
   
 ![image](https://user-images.githubusercontent.com/64090632/210275338-a8fec7c1-8eed-4a49-8b24-a9cbae35a92a.png)
 </details>
 <details>
-  <summary><b>2)</b> ESP Wemos mini - 1 шт.</summary>
+  <summary><b>2)</b> ESP Wemos mini - 1 pc.</summary>
   
 ![image](https://user-images.githubusercontent.com/64090632/210275136-fc39e573-aa01-4fbe-ae14-a6298901a5f6.png)
 </details>
@@ -77,14 +77,14 @@ The project used an automatic air freshener from the company Glade with replacea
 ---
 
 ### Filling on ESP Wemos mini firmware to control the air freshener
-In ESP Home, we create a project to control the air freshener, [**copy the code**](https://github.com/DivanX10/Smart-Air-Freshener-with-Balloon-Detection/blob/main/air-freshener-glade.yaml) и заливаем на плату
+In ESP Home, we create a project to control the air freshener, [**copy the code**](https://github.com/DivanX10/Smart-Air-Freshener-with-Balloon-Detection/blob/main/air-freshener-glade.yaml) and we fill it on the board
 
 ---
 
 ### Assembling
 
 We extract the native board and do as in the diagram
-![image](https://user-images.githubusercontent.com/64090632/210275692-ac4eafeb-6fe4-436b-8851-254242e53015.png)
+![image](https://user-images.githubusercontent.com/64090632/210287139-fc2f2cd4-e036-49a3-a701-29d2234140ee.png)
 
 Increased native board size for understanding.
 1) The yellow wire is soldered to the second leg on the right to the chip. This wire is soldered to the esp board, to the contacts D8 GPIO15
