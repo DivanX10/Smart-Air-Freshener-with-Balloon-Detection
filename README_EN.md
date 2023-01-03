@@ -1,0 +1,123 @@
+# Smart air freshener with detection of the presence of the balloon and the aroma of the balloon
+
+The project used an automatic air freshener from the company Glade with replaceable cylinders at 2400 spray, which I redesigned and integrated into the Home Assistant.
+![image](https://user-images.githubusercontent.com/64090632/210274020-c190c6f2-04a1-47cf-8b0d-a1e1ef07811d.png)
+
+
+### What opportunities does the redesigned air freshener provide?
+1) Spray the balloon with Home Assistant automation tools
+2) Spray the balloon with a built-in timer 
+3) Sensor pressing the physical button on the air fresheners
+4) Determines the presence of a balloon
+5) Determines the aroma of the balloon
+6) It is possible to keep a record of the consumption of each cylinder or only a single one
+7) Write your own code for sensor output and air freshener control in ESP Home
+8) Battery powered
+9) Mains power
+
+
+---
+
+### Necessary details
+
+<details>
+  <summary><b>1)</b> Glade Automatic Air Freshener - 1 шт.</summary>
+  
+![image](https://user-images.githubusercontent.com/64090632/210275338-a8fec7c1-8eed-4a49-8b24-a9cbae35a92a.png)
+</details>
+<details>
+  <summary><b>2)</b> ESP Wemos mini - 1 шт.</summary>
+  
+![image](https://user-images.githubusercontent.com/64090632/210275136-fc39e573-aa01-4fbe-ae14-a6298901a5f6.png)
+</details>
+
+<details>
+  <summary><b>3)</b> Step-down voltage converter GSMIN MP1584EN DC-DC - 1 pc.</summary>
+  
+![image](https://user-images.githubusercontent.com/64090632/210275257-8ff22857-6f0d-442b-9d0e-46a37332211f.png)
+</details>
+
+<details>
+  <summary><b>4)</b> Resistors, of any nominal value from 100 kOhm to 2 ohms, you can take a set of resistors</summary>
+  
+![image](https://user-images.githubusercontent.com/64090632/210275290-bc112a78-67a6-4a23-9d01-e9ef3382d7b0.png)
+</details>
+
+<details>
+  <summary><b>5)</b> Connector power socket 5.5mm - 1 pc.</summary>
+  
+![image](https://user-images.githubusercontent.com/64090632/210274879-f41c1f5a-a022-4f81-aa65-9595111f19fa.png)
+</details>
+
+<details>
+  <summary><b>6)</b> Conductive glue for heating threads (with nickel) NANOPROTECH - N pieces to choose from</summary>
+  
+![image](https://user-images.githubusercontent.com/64090632/210275453-94cdc468-aa54-40ab-9ec9-fdf4335e0812.png)
+</details>
+
+<details>
+  <summary><b>7)</b> Any power supply 9V 2A (9V/2A), plug 5.5*2.1mm </summary>
+  
+![image](https://user-images.githubusercontent.com/64090632/210275605-cd81f509-ec63-4d81-9459-8ff40caa6f0b.png)
+</details>
+
+<details>
+  <summary><b>8)</b> Neodymium Powerful Flat Magnets Rectangles Rosmagnit 5x5x1 mm - 20pcs </summary>
+  
+![image](https://user-images.githubusercontent.com/64090632/210276697-9c7320e6-8819-46c7-978b-151042579ff6.png)
+</details>
+
+<details>
+  <summary><b>9)</b> Print the platform on a 3D printer </summary>
+  
+![image](https://user-images.githubusercontent.com/64090632/210276971-7149593f-cffe-45b2-ae90-71349b066ec9.png)
+
+</details>
+
+---
+
+### Filling on ESP Wemos mini firmware to control the air freshener
+In ESP Home, we create a project to control the air freshener, [**copy the code**](https://github.com/DivanX10/Smart-Air-Freshener-with-Balloon-Detection/blob/main/air-freshener-glade.yaml) и заливаем на плату
+
+---
+
+### Assembling
+
+We extract the native board and do as in the diagram
+![image](https://user-images.githubusercontent.com/64090632/210275692-ac4eafeb-6fe4-436b-8851-254242e53015.png)
+
+Increased native board size for understanding.
+1) The yellow wire is soldered to the second leg on the right to the chip. This wire is soldered to the esp board, to the contacts D8 GPIO15
+2) Припаиваем резистор на 1кОм, а к нему зеленый провод. Далее припаиваем провод от резистора к плате esp, к контактам D7 GPIO13
+3) Оранжевый провод это +3.3V и припаиваем к плате esp, к контактам +3.3V
+4) Синий провод припаиваем к плате esp, к контактам GND
+5) Перерезаем контакт на дорожке текстолита идущий от желтого провода. Это нужно для того, чтобы мы могли управлять диспенсером при выключенном таймере
+
+![image](https://user-images.githubusercontent.com/64090632/210275721-a08a3a74-0b19-419d-b336-99912dc7a1f0.png)
+
+6) Разрезаем пружинку с контактом + для батарейного отсека и припаиваем диод (выделил красным маркером). Зачем это нужно? Это нужно для защиты платы esp от выхода ииз строя по той причиине, что если в освежителе воздуха будут стоять батарейки и мы еще подключим в сеть, то чип отвечающий за преобразование напряжения не будет пытаться зарядить батарейку и не будет сильно нагреваться, что может выйти из строя. Диод препятствует течи тока в обратную сторону к батарейке 
+
+![image](https://user-images.githubusercontent.com/64090632/210277101-1be5b60b-3c46-44ad-9fe9-774a9652f727.png)
+
+7) На esp припаиваем провода и резистор на 5.1 кОм (есть в комплекте резисторов) или 5.6 кОм. Резистор припаиваем к контактам A0 и GND. Припаиваем два провода от контактам A0(на фото провод коричневого цвета) и к +3.3V(на фото провод черного цвета) и протягиваем в самый низ корпуса баллона
+
+![image](https://user-images.githubusercontent.com/64090632/210277241-fe4dfb8f-bc95-4cc8-bb74-df4d2110848c.png)
+
+8) Устанавливаем в отверстие корпуса разъем гнездо питания 5.5мм, припаиваем от разъема провода к понижайке преобразователя напряжения GSMIN MP1584EN DC-DC, а от понижайки к esp. На понижайке выставляем напряжение 2.2-3.3в и проверяем силу мотора. Если Рычаг сильно вдавливается в ограничитель и начинает трещать, то понижайте напряжение до 2.2в и должно быть так, чтобы рычаг упирался в огрничитель и в тоже время у мотора не хватало сил на продавливание рычага и не мог сточить шестеренки
+
+![image](https://user-images.githubusercontent.com/64090632/210278174-10582517-9206-448b-834d-a3b9750d9eb2.png)
+
+10) Протягиваем два провода от контактов A0 и +3.3V и наносим термоклей так, чтобы в центре был круг, а сзади была дуга. Провода я залил токопроводящим клеем - паять не нужно. 
+> Важно! Токопроводящий клей плохо ложится на гладкую поверхность пластик, он начинает вспучиваться и отлипать. Обязательно гладкую поверхност зашкурить или процарапать хорошенько, тогда токопроводящий клей ляжет отлично
+
+![image](https://user-images.githubusercontent.com/64090632/210277467-12c2e240-952f-4ab6-b7bf-b121e80a0ca5.png)
+![image](https://user-images.githubusercontent.com/64090632/210277657-3d1cc3c7-f971-48de-bc78-308dd1ec1f5b.png)
+
+10) Распечатываем платформу на 3д принтере, устанавливаем 2 магнитика для усиления примагничивания, устанавлдиваем в отверстие резистор и замазываем токопроводящим клеем. Расход токопроводящего клея может быть разным, поэтому, если будет несколько платформ, то желательно взять несколько штук. Я взял 5 пачек.
+
+![image](https://user-images.githubusercontent.com/64090632/210278033-ac35a90f-8700-4062-8e59-537360ee1ea5.png)
+
+
+
+
+
