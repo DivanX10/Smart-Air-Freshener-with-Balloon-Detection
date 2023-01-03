@@ -113,7 +113,7 @@ Increased native board size for understanding.
 ![image](https://user-images.githubusercontent.com/64090632/210277467-12c2e240-952f-4ab6-b7bf-b121e80a0ca5.png)
 ![image](https://user-images.githubusercontent.com/64090632/210277657-3d1cc3c7-f971-48de-bc78-308dd1ec1f5b.png)
 
-10) We print the platform on a 3d printer, install 2 magnets to enhance magnetization, install a resistor in the hole and cover it with conductive glue. The consumption of conductive glue can be different, therefore, if there are several platforms, it is advisable to take several pieces. I took 5 packs.
+10) We print the platform on a 3d printer, install 2 magnets to enhance magnetization, install a resistor in the hole and cover it with conductive glue. The consumption of conductive glue can be different, therefore, if there are several platforms, it is advisable to take several pieces. I took 5 packs. The STL model can be downloaded [from here](https://www.thingiverse.com/thing:5762367)
 
 ![image](https://user-images.githubusercontent.com/64090632/210278033-ac35a90f-8700-4062-8e59-537360ee1ea5.png)
 
