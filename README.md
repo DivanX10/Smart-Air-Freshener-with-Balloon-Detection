@@ -1,4 +1,4 @@
-English version
+[English version](https://github.com/DivanX10/Smart-Air-Freshener-with-Balloon-Detection/blob/main/README_EN.md)
 
 # Умный освежитель воздуха с определением наличия баллона и аромата баллона
 
