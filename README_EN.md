@@ -88,32 +88,32 @@ We extract the native board and do as in the diagram
 
 Increased native board size for understanding.
 1) The yellow wire is soldered to the second leg on the right to the chip. This wire is soldered to the esp board, to the contacts D8 GPIO15
-2) Припаиваем резистор на 1кОм, а к нему зеленый провод. Далее припаиваем провод от резистора к плате esp, к контактам D7 GPIO13
-3) Оранжевый провод это +3.3V и припаиваем к плате esp, к контактам +3.3V
-4) Синий провод припаиваем к плате esp, к контактам GND
-5) Перерезаем контакт на дорожке текстолита идущий от желтого провода. Это нужно для того, чтобы мы могли управлять диспенсером при выключенном таймере
+2) Solder the resistor to 1K, and a green wire to it. Next, solder the wire from the resistor to the esp board, to the contacts D7 GPIO13
+3) The orange wire is +3.3V and soldered to the esp board, to the contacts +3.3V
+4) The blue wire is soldered to the esp board, to the GND contacts
+5) We cut the contact on the track of the textolite coming from the yellow wire. This is necessary so that we can control the dispenser when the timer is off
 
 ![image](https://user-images.githubusercontent.com/64090632/210275721-a08a3a74-0b19-419d-b336-99912dc7a1f0.png)
 
-6) Разрезаем пружинку с контактом + для батарейного отсека и припаиваем диод (выделил красным маркером). Зачем это нужно? Это нужно для защиты платы esp от выхода ииз строя по той причиине, что если в освежителе воздуха будут стоять батарейки и мы еще подключим в сеть, то чип отвечающий за преобразование напряжения не будет пытаться зарядить батарейку и не будет сильно нагреваться, что может выйти из строя. Диод препятствует течи тока в обратную сторону к батарейке 
+6) We cut the spring with the + contact for the battery compartment and solder the diode (highlighted with a red marker). Why is this necessary? This is necessary to protect the esp board from failure for the reason that if there are batteries in the air freshener and we still connect it to the network, then the chip responsible for voltage conversion will not try to charge the battery and will not get very hot, which can fail. The diode prevents current from flowing in the opposite direction to the battery
 
 ![image](https://user-images.githubusercontent.com/64090632/210277101-1be5b60b-3c46-44ad-9fe9-774a9652f727.png)
 
-7) На esp припаиваем провода и резистор на 5.1 кОм (есть в комплекте резисторов) или 5.6 кОм. Резистор припаиваем к контактам A0 и GND. Припаиваем два провода от контактам A0(на фото провод коричневого цвета) и к +3.3V(на фото провод черного цвета) и протягиваем в самый низ корпуса баллона
+7) On the esp, we solder wires and a 5.1 kOhm resistor (there are resistors included) or 5.6 kOhm. The resistor is soldered to contacts A0 and GND. Solder two wires from contacts A0 (brown wire in the photo) and to +3.3V (black wire in the photo) and stretch to the very bottom of the cylinder body
 
 ![image](https://user-images.githubusercontent.com/64090632/210277241-fe4dfb8f-bc95-4cc8-bb74-df4d2110848c.png)
 
-8) Устанавливаем в отверстие корпуса разъем гнездо питания 5.5мм, припаиваем от разъема провода к понижайке преобразователя напряжения GSMIN MP1584EN DC-DC, а от понижайки к esp. На понижайке выставляем напряжение 2.2-3.3в и проверяем силу мотора. Если Рычаг сильно вдавливается в ограничитель и начинает трещать, то понижайте напряжение до 2.2в и должно быть так, чтобы рычаг упирался в огрничитель и в тоже время у мотора не хватало сил на продавливание рычага и не мог сточить шестеренки
+8) We install a 5.5 mm power socket connector into the housing hole, solder the wires from the connector to the step-down of the GSMIN MP1584EN DC-DC voltage converter, and from the step-down to the esp. On the step-down we set the voltage 2.2-3.3v and check the motor power. If the lever is pressed hard into the limiter and starts to crack, then lower the voltage to 2.2V and it should be so that the lever rests against the limiter and at the same time the motor does not have enough strength to push the lever and could not wear off the gears
 
 ![image](https://user-images.githubusercontent.com/64090632/210278174-10582517-9206-448b-834d-a3b9750d9eb2.png)
 
-10) Протягиваем два провода от контактов A0 и +3.3V и наносим термоклей так, чтобы в центре был круг, а сзади была дуга. Провода я залил токопроводящим клеем - паять не нужно. 
-> Важно! Токопроводящий клей плохо ложится на гладкую поверхность пластик, он начинает вспучиваться и отлипать. Обязательно гладкую поверхност зашкурить или процарапать хорошенько, тогда токопроводящий клей ляжет отлично
+10) We stretch two wires from contacts A 0 and +3.3V and apply hot glue so that there is a circle in the center and an arc at the back. I filled the wires with conductive glue - there is no need to solder.
+> Important! Conductive glue does not fit well on the smooth surface of the plastic, it begins to swell and peel off. Be sure to sand or scratch the smooth surface thoroughly, then the conductive glue will lie perfectly
 
 ![image](https://user-images.githubusercontent.com/64090632/210277467-12c2e240-952f-4ab6-b7bf-b121e80a0ca5.png)
 ![image](https://user-images.githubusercontent.com/64090632/210277657-3d1cc3c7-f971-48de-bc78-308dd1ec1f5b.png)
 
-10) Распечатываем платформу на 3д принтере, устанавливаем 2 магнитика для усиления примагничивания, устанавлдиваем в отверстие резистор и замазываем токопроводящим клеем. Расход токопроводящего клея может быть разным, поэтому, если будет несколько платформ, то желательно взять несколько штук. Я взял 5 пачек.
+10) We print the platform on a 3d printer, install 2 magnets to enhance magnetization, install a resistor in the hole and cover it with conductive glue. The consumption of conductive glue can be different, therefore, if there are several platforms, it is advisable to take several pieces. I took 5 packs.
 
 ![image](https://user-images.githubusercontent.com/64090632/210278033-ac35a90f-8700-4062-8e59-537360ee1ea5.png)
 
