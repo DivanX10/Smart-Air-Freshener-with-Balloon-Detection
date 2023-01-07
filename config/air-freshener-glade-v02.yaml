@@ -25,7 +25,7 @@ wifi:
 #Если не будет связи с WiFi, то поднимется точка доступа
   ap:
     ssid: ESP AirFreshener Glade
-    password: nv1Yevv9U
+    password: xxxxxxx #указываем свой пароль(рекомендуется сгенерировать пароль)
 
 #Компонент captive portal в ESPHome является резервным механизмом на случай сбоя подключения к настроенному Wi-Fi.
 captive_portal:
